@@ -33,8 +33,8 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "your-github-username",
-        "repo": "your-repo-name"
+        "owner": "intellijenty",
+        "repo": "electron-auto-update-template"
       }
     ]
   },
