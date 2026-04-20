@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="app-content">
-        <h1 className="app-title">Hello World</h1>
+        <h1 className="app-title">Fuck the Hell yeah!</h1>
         <p className="app-description">
           Electron app template with Vite + React and GitHub auto-updates.
         </p>

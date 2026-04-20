@@ -31,7 +31,7 @@ function createWindow() {
 }
 
 function checkForUpdatesNow() {
-  autoUpdater.checkForUpdates().catch((err) => {
+  autoUpdater.checkForUpdates().catch((err: any) => {
     log.error("Update check failed:", err);
   });
 }
@@ -44,25 +44,25 @@ function setupAutoUpdater() {
     log.info("Checking for update...");
   });
 
-  autoUpdater.on("update-available", (info) => {
+  autoUpdater.on("update-available", (info: any) => {
     log.info("Update available:", info);
     mainWindow?.webContents.send("update-available", info);
   });
 
-  autoUpdater.on("update-not-available", (info) => {
+  autoUpdater.on("update-not-available", (info: { version: any; }) => {
     log.info("No update available. Current version:", info.version);
   });
 
-  autoUpdater.on("download-progress", (progress) => {
+  autoUpdater.on("download-progress", (progress: any) => {
     mainWindow?.webContents.send("update-progress", progress);
   });
 
-  autoUpdater.on("update-downloaded", (info) => {
+  autoUpdater.on("update-downloaded", (info: any) => {
     log.info("Update downloaded:", info);
     mainWindow?.webContents.send("update-downloaded", info);
   });
 
-  autoUpdater.on("error", (err) => {
+  autoUpdater.on("error", (err: { message: any; }) => {
     log.error("Update error:", err);
     mainWindow?.webContents.send("update-error", err.message);
   });
@@ -105,7 +105,7 @@ app.on("window-all-closed", () => {
 ipcMain.handle("get-version", () => app.getVersion());
 
 ipcMain.on("download-update", () => {
-  autoUpdater.downloadUpdate().catch((err) => {
+  autoUpdater.downloadUpdate().catch((err: any) => {
     log.error("Download update failed:", err);
   });
 });
