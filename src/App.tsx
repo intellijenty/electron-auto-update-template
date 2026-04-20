@@ -24,6 +24,7 @@ function App() {
         <div className="app-note">
           Updates are checked automatically on launch.
           <br />A blue toast will appear when a new version is available.
+          <br />And here we go...
         </div>
       </div>
       <UpdateToast />
