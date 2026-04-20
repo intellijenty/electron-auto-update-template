@@ -26,17 +26,31 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   } else {
     mainWindow.loadURL("http://localhost:5274");
+    mainWindow.webContents.openDevTools();
   }
+}
+
+function checkForUpdatesNow() {
+  autoUpdater.checkForUpdates().catch((err) => {
+    log.error("Update check failed:", err);
+  });
 }
 
 function setupAutoUpdater() {
   if (!app.isPackaged) return;
 
-  autoUpdater.checkForUpdates();
+  // Register all listeners BEFORE triggering any check
+  autoUpdater.on("checking-for-update", () => {
+    log.info("Checking for update...");
+  });
 
   autoUpdater.on("update-available", (info) => {
     log.info("Update available:", info);
     mainWindow?.webContents.send("update-available", info);
+  });
+
+  autoUpdater.on("update-not-available", (info) => {
+    log.info("No update available. Current version:", info.version);
   });
 
   autoUpdater.on("download-progress", (progress) => {
@@ -52,6 +66,13 @@ function setupAutoUpdater() {
     log.error("Update error:", err);
     mainWindow?.webContents.send("update-error", err.message);
   });
+
+  // Wait for the renderer to finish loading AND React to mount before checking.
+  // Without this, the update-available IPC message can fire before UpdateToast
+  // has registered its listener, and the toast is never shown.
+  mainWindow?.webContents.once("did-finish-load", () => {
+    setTimeout(checkForUpdatesNow, 1500);
+  });
 }
 
 app.whenReady().then(() => {
@@ -64,7 +85,7 @@ app.whenReady().then(() => {
       submenu: [
         {
           label: "Check for Updates",
-          click: () => autoUpdater.checkForUpdates(),
+          click: checkForUpdatesNow,
         },
       ],
     },
@@ -84,7 +105,9 @@ app.on("window-all-closed", () => {
 ipcMain.handle("get-version", () => app.getVersion());
 
 ipcMain.on("download-update", () => {
-  autoUpdater.downloadUpdate();
+  autoUpdater.downloadUpdate().catch((err) => {
+    log.error("Download update failed:", err);
+  });
 });
 
 ipcMain.on("install-update", () => {
