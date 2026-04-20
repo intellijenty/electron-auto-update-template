@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fff;
+  color: #1e1e1e;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Update toast */
+.update-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0a84ff;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(10, 132, 255, 0.35);
+  display: none;
+  align-items: center;
+  gap: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  z-index: 10000;
+  min-width: 420px;
+  animation: slideDown 0.3s ease forwards;
+}
+
+.update-toast.show {
+  display: flex;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.update-toast-message {
+  flex: 1;
+}
+
+.update-progress-bar {
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.update-progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+.update-toast button {
+  background: white;
+  color: #0a84ff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.update-toast button:hover {
+  background: #f0f0f0;
+}
+
+.close-btn {
+  background: none !important;
+  border: none;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px !important;
+  flex-shrink: 0;
+}
+
+.close-btn:hover {
+  color: white !important;
+  background: none !important;
+}
